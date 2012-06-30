@@ -52,7 +52,13 @@ Build some sort of object oriented abstraction over your javascript functions. Y
 4. Use client side templates to render content
 ----------------------------------------------
 
+Again, this can go into another blog post by itself, and I'll be writing about this soon.
 
+*The Trap:*
+Having your server return HTML output as the response to an AJAX request, and having the client just dump it into the DOM somewhere
+
+*The Solution:*
+Use something like [Mustache.js](http://mustache.github.com/) to render your server side template. I'll be posting more about this soon.
 
 5. Test your javascript
 -----------------------
@@ -77,7 +83,7 @@ You can open up a class and add methods:
 You can use [] like a poor man's send:
 <script src="https://gist.github.com/3023040.js?file=6send.js"></script>
 
-You can also us [] to define dynamic methods:
+You can also use [] to define dynamic methods:
 <script src="https://gist.github.com/3023040.js?file=6define.js"></script>
 
 
