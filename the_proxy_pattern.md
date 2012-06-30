@@ -4,11 +4,11 @@ I have a method which does something great, and is nice and small. It does every
 
 TL;DR - Short summary
 ---------------------
-Wrap the original object in a proxy which looks like the original object to the outside world. Delegate calls to the original object eventually.
+Wrap the original object in a proxy which looks like the original object to the outside world. Delegate calls to the original object eventually. This is an example of Aspect Oriented Programming.
 
 Code Example
 ------------
-I'm building this up example as a series of requirements
+I'm building this example up as a series of requirements
 
 Requirement 1: I want to be able to get my bank balance from the bank.
 <script src="https://gist.github.com/3022255.js?file=bank.rb"></script>
@@ -56,4 +56,5 @@ Rack provides an easy way to add proxy pattern to the app called via filters (ra
 
 Further Reading
 ---------------
-* http://en.wikipedia.org/wiki/Proxy_pattern
+* [http://en.wikipedia.org/wiki/Proxy_pattern](http://en.wikipedia.org/wiki/Proxy_pattern)
+* [http://en.wikipedia.org/wiki/Aspect-oriented_programming](http://en.wikipedia.org/wiki/Aspect-oriented_programming)

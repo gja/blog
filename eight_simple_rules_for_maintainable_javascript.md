@@ -21,6 +21,9 @@ Wrap everything that is binding to an element, and call that from the html
 <script src="https://gist.github.com/3023040.js?file=solution1.js"></script>
 <script src="https://gist.github.com/3023040.js?file=solution1.html"></script>
 
+*Caveat:*
+One caveat to look out for is the order of loading of JavaScript files. The above code requires jQuery loaded for $(document).ready() to work. One alternative is to use window.onLoad(), though that waits for the entire DOM and assets to load.
+
 2. Understand how *this* works in Javascript
 --------------------------------------------
 Everything is lexically scoped in Javascript. Except for 'this', which is something that is set depending on how a method is called. Some libraries like jQuery even set the value of 'this' to mean things like the object on which a callback is called.
@@ -43,7 +46,7 @@ Javascript is a prototype based language. There are a lot of cool things you can
 A bunch of methods floating around in space
 <script src="https://gist.github.com/3023040.js?file=trap2.js"></script>
 
-This is a trap because you aren't able to logically group related methods together. Functions without 
+This is a trap because you aren't able to group logically related methods together. This would be similar to a bunch of static methods on your server side.
 
 *The Solution:*
 Build some sort of object oriented abstraction over your javascript functions. You can either hand roll your own using javascripts prototype functionality, or you can just drop in something like [class-js](https://github.com/rauschma/class-js/blob/master/Class.js)
@@ -105,6 +108,6 @@ As a primer, check out the following projects:
 -------------------
 CoffeeScript is a neat little language that compiles down to JS, and has support for almost all of these features baked right in. It namespaces things for you, and fixes the this/self problem, and provides a lot of the functionality that underscore would provide.
 
-As an additional, it's much less code to read. And it's baked right into rails.
+As an additional benefit, it's much less code to read. And it's baked right into rails.
 
 You can read more on [coffeescript.org](http://coffeescript.org/)
