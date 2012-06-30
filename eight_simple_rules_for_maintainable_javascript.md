@@ -20,3 +20,15 @@ This is a trap for multiple reasons:
 Wrap everything that is binding to an element, and call that from the html
 <script src="https://gist.github.com/3023040.js?file=solution1.js"></script>
 <script src="https://gist.github.com/3023040.js?file=solution1.html"></script>
+
+2. Structure your JS code into logical units
+--------------------------------------------
+Javascript is a prototype based language. There are a lot of cool things you can do with a prototype based language, but very few of them will help you write a good UI. Most people take the lack of 'class' keyword in Javascript to mean the lack of Object Orientation.
+
+*The Trap:*
+A bunch of methods floating around in space
+<script src="https://gist.github.com/3023040.js?file=trap2.js"></script>
+
+*The Solution:*
+Build some sort of object oriented abstraction over your javascript functions. You can either hand roll your own using javascripts prototype functionality, or you can just drop in something like [class-js](https://github.com/rauschma/class-js/blob/master/Class.js)
+<script src="https://gist.github.com/3023040.js?file=solution2.js"></script>
