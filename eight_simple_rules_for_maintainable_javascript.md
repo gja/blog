@@ -15,11 +15,14 @@ This is a trap for multiple reasons:
 1. It's really hard to figure out what happened when you clicked on a button. Did some callback get triggered? Where is the code for this?
 2. You'll can easily get a bunch of callbacks that interfere with each other. Another page of mine has another button called submit button. I need to make sure that this JS is not loaded on that page
 3. This file is almost guaranteed to keep getting bigger and bigger. Cost of change will sky rocket.
+4. It's not possible to compile all your javascript assets into a single application.js
 
 *Solution:*
 Wrap everything that is binding to an element, and call that from the html
 <script src="https://gist.github.com/3023040.js?file=solution1.js"></script>
 <script src="https://gist.github.com/3023040.js?file=solution1.html"></script>
+
+Binding things in the HTML helps you keep in your head what is going on in a particular page. It also helps you answer things like how an element is bound (was it ".submit-button", "#page-submit-button", or "form > .submit-button"), and makes sure that it's easy to find when searching for code later.
 
 *Caveat:*
 One caveat to look out for is the order of loading of JavaScript files. The above code requires jQuery loaded for $(document).ready() to work. One alternative is to use window.onLoad(), though that waits for the entire DOM and assets to load.
@@ -44,13 +47,13 @@ Javascript is a prototype based language. There are a lot of cool things you can
 
 *The Trap:*
 A bunch of methods floating around in space
-<script src="https://gist.github.com/3023040.js?file=trap2.js"></script>
+<script src="https://gist.github.com/3023040.js?file=trap3.js"></script>
 
 This is a trap because you aren't able to group logically related methods together. This would be similar to a bunch of static methods on your server side.
 
 *The Solution:*
 Build some sort of object oriented abstraction over your javascript functions. You can either hand roll your own using javascripts prototype functionality, or you can just drop in something like [class-js](https://github.com/rauschma/class-js/blob/master/Class.js)
-<script src="https://gist.github.com/3023040.js?file=solution2.js"></script>
+<script src="https://gist.github.com/3023040.js?file=solution3.js"></script>
 
 4. Use client side templates to render content
 ----------------------------------------------
