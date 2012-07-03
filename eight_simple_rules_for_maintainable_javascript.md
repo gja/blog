@@ -14,8 +14,7 @@ This is a trap for multiple reasons:
 
 1. It's really hard to figure out what happened when you clicked on a button. Did some callback get triggered? Where is the code for this?
 2. You'll can easily get a bunch of callbacks that interfere with each other. Another page of mine has another button called submit button. I need to make sure that this JS is not loaded on that page
-3. This file is almost guaranteed to keep getting bigger and bigger. Cost of change will sky rocket.
-4. It's not possible to compile all your javascript assets into a single application.js
+3. It's not possible to compile all your javascript assets into a single application.js
 
 *Solution:*
 Wrap everything that is binding to an element, and call that from the html
