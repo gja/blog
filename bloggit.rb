@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby
 
 require 'redcarpet'
+require 'restclient'
 
 file = ARGV[0] ? File.open(ARGV[0]) : STDIN
 
@@ -9,7 +10,10 @@ class Bloggit < Redcarpet::Render::HTML
     document.gsub(/\[gist (.*) (.*)\]/) do
       gist_id = $1
       file = $2
-      "<script src=\"https://gist.github.com/#{gist_id}.js?file=#{file}\"></script>"
+      <<-EOF
+<script src="https://gist.github.com/#{gist_id}.js?file=#{file}"></script>
+<noscript>#{RestClient.get("https://raw.github.com/gist/#{gist_id}/#{file}")}</noscript>
+EOF
     end
   end
 
