@@ -8,7 +8,7 @@ I've seen this anti pattern in most of the codebases I've inherited.
 
 *The Trap:*
 The javascript that binds to the DOM
-<script src="https://gist.github.com/3023040.js?file=trap1.js"></script>
+[gist 3023040 trap1.js]
 
 This is a trap for multiple reasons:
 
@@ -19,8 +19,8 @@ This is a trap for multiple reasons:
 
 *Solution:*
 Wrap everything that is binding to an element, and call that from the html
-<script src="https://gist.github.com/3023040.js?file=solution1.js"></script>
-<script src="https://gist.github.com/3023040.js?file=solution1.html"></script>
+[gist 3023040 solution1.js]
+[gist 3023040 solution1.html]
 
 Binding things in the HTML helps you keep in your head what is going on in a particular page. It also helps you answer things like how an element is bound (was it ".submit-button", "#page-submit-button", or "form > .submit-button"), and makes sure that it's easy to find when searching for code later.
 
@@ -32,14 +32,14 @@ One caveat to look out for is the order of loading of JavaScript files. The abov
 Everything is lexically scoped in Javascript. Except for 'this', which is something that is set depending on how a method is called. Some libraries like jQuery even set the value of 'this' to mean things like the object on which a callback is called.
 
 *The Trap:*
-The javascript that binds to the DOM
-<script src="https://gist.github.com/3023040.js?file=trap2.js"></script>
+Using a this pointer that's pointing at the wrong object.
+[gist 3023040 trap2.js]
 
 Granted, this isn't all that dangerous because it will be obvious that your code is not working.
 
 *The Solution:*
 Have a convention for what the current object is. I prefer self.
-<script src="https://gist.github.com/3023040.js?file=solution2.js"></script>
+[gist 3023040 solution2.js]
 
 3. Structure your JS code into logical units
 --------------------------------------------
@@ -47,13 +47,13 @@ Javascript is a prototype based language. There are a lot of cool things you can
 
 *The Trap:*
 A bunch of methods floating around in space
-<script src="https://gist.github.com/3023040.js?file=trap3.js"></script>
+[gist 3023040 trap3.js]
 
 This is a trap because you aren't able to group logically related methods together. This would be similar to a bunch of static methods on your server side.
 
 *The Solution:*
 Build some sort of object oriented abstraction over your javascript functions. You can either hand roll your own using javascripts prototype functionality, or you can just drop in something like [class-js](https://github.com/rauschma/class-js/blob/master/Class.js)
-<script src="https://gist.github.com/3023040.js?file=solution3.js"></script>
+[gist 3023040 solution3.js]
 
 4. Use client side templates to render content
 ----------------------------------------------
@@ -84,13 +84,13 @@ Check out the [example specs](http://pivotal.github.com/jasmine/)
 Ruby programmers would already be familiar with some sort of metaprogramming, and JS is almost as powerful. The main feature I miss from ruby is the method_missing.
 
 You can open up a class and add methods:
-<script src="https://gist.github.com/3023040.js?file=6monkeypatch.js"></script>
+[gist 3023040 6monkeypatch.js]
 
 You can use [] like a poor man's send:
-<script src="https://gist.github.com/3023040.js?file=6send.js"></script>
+[gist 3023040 6send.js]
 
 You can also use [] to define dynamic methods:
-<script src="https://gist.github.com/3023040.js?file=6define.js"></script>
+[gist 3023040 6define.js]
 
 
 7. Know your javascript libraries
