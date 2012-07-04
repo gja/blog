@@ -22,7 +22,9 @@ class Bloggit < Redcarpet::Render::HTML
       file = $2
       <<-EOF
 <script src="https://gist.github.com/#{gist_id}.js?file=#{file}"></script>
-<noscript>#{fetch("https://raw.github.com/gist/#{gist_id}/#{file}")}</noscript>
+<noscript>
+  <pre>#{fetch("https://raw.github.com/gist/#{gist_id}/#{file}")}</pre>
+</noscript>
 EOF
     end
   end
@@ -48,7 +50,7 @@ EOF
   end
 
   def postprocess(full_document)
-    methods = []# [:replace_gists]
+    methods = [:replace_gists]
     methods.inject(full_document) { |d, m| send(m, d) }
   end
 end
@@ -56,7 +58,7 @@ end
 render_opts = {:with_toc_data => true}
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: blogit input.md [--hacker-news 4194066]"
-  opts.on('-hn', '--hacker-news ID', "Link to hacker news") do |id| 
+  opts.on('-n ID', '--hacker-news ID', "Link to hacker news") do |id|
     render_opts[:hacker_news] = id
   end
 end
