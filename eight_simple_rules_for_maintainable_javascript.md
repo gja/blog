@@ -113,3 +113,5 @@ CoffeeScript is a neat little language that compiles down to JS, and has support
 As an additional benefit, it's much less code to read. And it's baked right into rails.
 
 You can read more on [coffeescript.org](http://coffeescript.org/)
+
+[footer twitter:tdinkar hacker_news:4194066]
