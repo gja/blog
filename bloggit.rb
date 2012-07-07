@@ -25,10 +25,12 @@ EOF
 end
 
 class Footer
-  BASE = <<-EOF
+  def base
+    <<-EOF
 <hr />
 <b>If you liked this post, you could:</b><br />
 EOF
+  end
 
   def twitter(twitter_id)
     <<-EOF
@@ -46,10 +48,18 @@ EOF
 EOF
   end
 
+  def leave_comment
+    <<-EOF
+<div style="text-align: center;">
+  <b>or just <a href="#comment-form">leave a comment</a></b>
+</div>
+EOF
+  end
+
   def components(args)
-    [BASE] +
+    [base] +
       args.map {|a| send(*a.split(':'))} +
-      ["<br/>"]
+      [leave_comment, "<br/>"]
   end
 
   def render(args)
