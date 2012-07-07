@@ -48,10 +48,10 @@ EOF
 EOF
   end
 
-  def leave_comment
+  def comment(blog_id, post_id)    
     <<-EOF
 <div style="text-align: center;">
-  <b>or just <a href="#comment-form">leave a comment</a></b>
+  <b>or just <a href="http://www.blogger.com/comment.g?blogID=#{blog_id}&postID=#{post_id}">leave a comment</a></b>
 </div>
 EOF
   end
@@ -59,7 +59,7 @@ EOF
   def components(args)
     [base] +
       args.map {|a| send(*a.split(':'))} +
-      [leave_comment, "<br/>"]
+      ["<br/>"]
   end
 
   def render(args)

@@ -114,4 +114,4 @@ As an additional benefit, it's much less code to read. And it's baked right into
 
 You can read more on [coffeescript.org](http://coffeescript.org/)
 
-[footer twitter:tdinkar hacker_news:4194066]
+[footer twitter:tdinkar hacker_news:4194066 comment:9188785269813520484:9116171307565451943]
