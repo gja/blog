@@ -67,6 +67,12 @@ EOF
   end
 end
 
+class Renderer < SquareBracket::HTMLRender
+  def header(title, level)
+    "<h#{level} id='#{title.downcase.gsub(/[^a-z0-9]+/, "-").gsub(/[^a-z0-9]$/, "")}'>#{title}</h#{level}>"
+  end
+end
+
 file = ARGV[0] ? File.open(ARGV[0]) : $stdin
-markdown = Redcarpet::Markdown.new(SquareBracket::HTMLRender.new(BlogProcessor.new), :autolink => true)
+markdown = Redcarpet::Markdown.new(Renderer.new(BlogProcessor.new), :autolink => true)
 puts markdown.render file.read
