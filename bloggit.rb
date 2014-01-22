@@ -2,21 +2,24 @@
 
 require 'square_bracket'
 require 'restclient'
-require 'cgi'
+require 'json'
 
 class BlogProcessor
-  def fetch(url)
-    $stderr.puts("Fetching #{url}")
-    CGI.escapeHTML RestClient.get(url)
+  def gist_cache
+    @gist_cache ||= {}
   end
 
   def gist(gist_id, file)
+    gist_cache[gist_id] ||= JSON.parse(RestClient.get("https://api.github.com/gists/#{gist_id}"))
+
     <<-EOF
 <script src="https://gist.github.com/#{gist_id}.js?file=#{file}"></script>
 <noscript>
-  <pre>#{fetch("https://raw.github.com/gist/#{gist_id}/#{file}")}</pre>
+  <pre>#{gist_cache[gist_id]["files"][file]["content"]}</pre>
 </noscript>
 EOF
+  rescue
+    raise "Cannot find gist #{gist_id}/#{file}"
   end
 
   def footer(*args)
@@ -48,7 +51,7 @@ EOF
 EOF
   end
 
-  def comment(blog_id, post_id)    
+  def comment(blog_id, post_id)
     <<-EOF
 <div style="text-align: center;">
   <b>or just <a href="http://www.blogger.com/comment.g?blogID=#{blog_id}&postID=#{post_id}">leave a comment</a></b>
