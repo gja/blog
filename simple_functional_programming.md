@@ -1,24 +1,23 @@
-In this blog post, I'll attempt to explain some basic concepts of Functional Programming, using Haskell. You can run most of these examples in ghci, and I'll provide the code in the end.
-
-Simple Overview Of Haskell Syntax
----------------------------------
-
-* List Creation: You can create a list / array using the : operator. This can even be done lazily to get an infinite list. [gist 24df70ad958b0ba87e37 basics-1.hs]
-* Defining Function: Looks just like defining a variable, but it takes parameters. The only way it's slightly different from functions that you are used to is that you can do pattern matching to make your code look simpler. Here, I define a method that sums all the elements of a list. [gist 24df70ad958b0ba87e37 basics-2.hs]
+In this blog post, I'll attempt to explain some basic concepts of Functional Programming, using Haskell. You can run most of these examples in ghci, and I'll provide a link to a gist with all code samples in the end. Many thanks to [Mattox Beckman](http://www.iit.edu/csl/cs/faculty/beckman_mattox.shtml) for coming up with the programming exercise.
 
 The Problem
 -----------
+You are Hercules, about to fight the dreaded Hydra. The Hydra has 9 heads. When a head is chopped off, each head spawns 8 more heads. When one of these 8 heads is cut off, each one spawns out 7 more heads. Chopping one of these spawns 6 more heads, and so on until the weakest head of the hydra will not spawn out any more heads.
 
-You are hercules, about to fight the dreaded Hydra. The Hydra has 9 heads. When a head is chopped off, each head spawns 8 more heads. When one of these 8 heads is cut off, each one spawns out 7 more heads. Chopping one of these spawns 6 more heads, and so on until the weakest head of the hydra will not spawn out any more heads.
+Simple Overview Of Haskell Syntax
+---------------------------------
+* List Creation: You can create a list / array using the : operator. This can even be done lazily to get an infinite list.
+[gist 24df70ad958b0ba87e37 basics-1.hs]
+* Defining Function: Looks just like defining a variable, but it takes parameters. The only way it's slightly different from functions that you are used to is that you can do pattern matching to make your code look simpler. Here, I define a method that sums all the elements of a list.
+[gist 24df70ad958b0ba87e37 basics-2.hs]
+
 
 Choosing a data structure
 -------------------------
-
 Let's choose a simple data structure to represent the hydra. We'll pick an array to represent the heads of the hydra, with the strongest heads at the beginning. The initial state of the Hydra (with 9 level 9 heads) can be represented as follows: ```[9, 0, 0, 0, 0, 0, 0, 0, 0]```.
 
 Chopping off a head
 -------------------
-
 The whole point of functional programming is to build small methods and compose them later. Let's first build a specific method to chop off the Hydra's head. We know that chopping off one `level 9` head should result in 8 level 8 heads. This is represented as ```[8, 8, 0, 0, 0, 0, 0, 0, 0]```
 
 Let's build the chop function. It takes 2 arguments, the level of the head in the first position, and the current state of the heads. It will return the state of the heads afterwards.
@@ -33,13 +32,13 @@ The below code basically works as follows:
 
 Now What?
 ---------
-
 We've built a function called chop. This is called a pure function because it takes input, and returns some output without modifying any of the inputs.
 
 Here's what we can do next. Let's create a sequence of all the heads, after calling chop multiple times repeatedly.
 [gist 24df70ad958b0ba87e37 repeatedly-chop1.hs]
 
-This paradigm is so common, that we have a functional construct that does this: [iterate](( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:iterate)). We can replace the code with the following equivalent:
+
+This paradigm is so common, that we have a functional construct that does this: [iterate]( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:iterate). We can replace the code with the following equivalent:
 [gist 24df70ad958b0ba87e37 repeatedly-chop2.hs]
 
 Truncate that infinite list
@@ -54,7 +53,7 @@ Now, let's keep things in the array as long as the hydra is alive
 Putting the two together
 [gist 24df70ad958b0ba87e37 iteratethroughheads.hs]
 
-Again, these patterns are so common, that we can replace the entire thing with a single line. [any] ((http://zvon.org/other/haskell/Outputprelude/any_f.html)) checks the given condition against elements in the list until it finds one true. [takeWhile](( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:takeWhile)) keeps things in the list until the first element that doesn't match.
+Again, these patterns are so common, that we can replace the entire thing with a single line. [any] ((http://zvon.org/other/haskell/Outputprelude/any_f.html)) checks the given condition against elements in the list until it finds one true. [takeWhile]( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:takeWhile) keeps things in the list until the first element that doesn't match.
 [gist 24df70ad958b0ba87e37 repeatedly-simple.hs]
 
 Finishing up
