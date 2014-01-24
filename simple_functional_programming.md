@@ -1,6 +1,6 @@
-In this blog post, I'll attempt to explain some basic concepts of Functional Programming, using Haskell.
+In this blog post, I'll attempt to explain some basic concepts of Functional Programming, using Haskell. This blog post isn't about Haskell per-se, but about one way of approaching this problem, which demonstrates the benefits of functional programming.
 
-You can run most of these examples in ghci, and you can find a gist with all code samples in the end.
+You can run most of these examples in ghci, by saving the contents of the example into a .hs file, loading up ghci and running :load file.hs.
 
 Many thanks to [Mattox Beckman](http://www.iit.edu/csl/cs/faculty/beckman_mattox.shtml) for coming up with the programming exercise, and Junjie Ying for coming finding a better data structure for this explanation than I came up with.
 
@@ -11,7 +11,7 @@ You are Hercules, about to fight the dreaded Hydra. The Hydra has 9 heads. When 
 Our job is to figure out how many chops Hercules needs to make in order to kill all heads of the Hydra. And no, it's not n!.
 
 Prelude: Simple Overview Of Haskell Syntax
----------------------------------
+------------------------------------------
 Before we dive into code, i'll explain a few constructs which are unique to Haskell, so it's easy for non Haskellers.
 
 * List Creation: You can create a list / array using the : operator. This can even be done lazily to get an infinite list.
