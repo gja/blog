@@ -2,7 +2,7 @@ In this blog post, I'll attempt to explain some basic concepts of Functional Pro
 
 You can run most of these examples in ghci, and you can find a gist with all code samples in the end.
 
-Many thanks to [Mattox Beckman](http://www.iit.edu/csl/cs/faculty/beckman_mattox.shtml) for coming up with the programming exercise.
+Many thanks to [Mattox Beckman](http://www.iit.edu/csl/cs/faculty/beckman_mattox.shtml) for coming up with the programming exercise, and Junjie Ying for coming finding a better data structure for this explanation than I came up with.
 
 The Problem
 -----------
@@ -16,28 +16,29 @@ Before we dive into code, i'll explain a few constructs which are unique to Hask
 
 * List Creation: You can create a list / array using the : operator. This can even be done lazily to get an infinite list.
 [gist 24df70ad958b0ba87e37 basics-1.hs]
-* Defining Function: Looks just like defining a variable, but it takes parameters. The only way it's different from functions that you are used to is that Haskell pattern matching to simplify your code. Here, I define a method that sums all the elements of a list.
+* Defining Function: Looks just like defining a variable, but it takes parameters. One way they are different from other languages is the ability to do pattern matching to simplify your code. Here, I define a method that sums all the elements of a list.
 [gist 24df70ad958b0ba87e37 basics-2.hs]
+* More List Foo: Adding lists can be done with ++. Checking if a list is empty can be done with null. You can use replicate to create a list with the same elements over and over.
+[gist 24df70ad958b0ba87e37 basics-3.hs]
 
 
 Choosing a data structure
 -------------------------
-Let's choose a simple data structure to represent the hydra. We'll pick an array to represent the heads of the hydra, with the strongest heads at the beginning of the array. The initial state of the Hydra (with 9 `level 9` heads) can be represented as follows: ```[9, 0, 0, 0, 0, 0, 0, 0, 0]```.
+Let's choose a simple data structure to represent the hydra. We'll pick an array to represent the heads of the Hydra, using the `level` of each head as the value. The initial state of the Hydra (with 9 `level 9` heads) can be represented as follows: ```[9, 9, 9, 9, 9, 9, 9, 9, 9]```.
 
 Chopping off a head
 -------------------
 The whole point of functional programming is to build small functions and compose them later. We'll build a few functions, specific to our domain, and a few more general ones to orchestrate.
 
-Let's first build a specific function to chop off the Hydra's head. We know that chopping off one `level 9` head should result in 8 `level 8` heads (and 8 of the original `level 9` heads). This is represented as ```[8, 8, 0, 0, 0, 0, 0, 0, 0]```
+Let's first build a specific function to chop off the Hydra's head. We know that chopping off one ```level 9``` head should result in 8 ```level 8``` heads (and 8 of the original ```level 9``` heads). This is represented as ```[8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9]```
 
-Let's build the chop function. It takes 2 arguments, the level of the heads at the start of the array, and the current state of the heads. It will return the state of the heads afterwards.
+Let's build the chop function. It takes a single argument, and the current levels of the all live heads. It will return the state of the heads after chopping the first one.
 
-The four lines of code below map to these rules:
+The three lines of code below map to these rules:
 
-* If we've recursively come to the end, and have run out of heads, return `[]`
-* If there are no heads at the current level, look at the next level
-* If you've reached the end, and there are heads in the last position, then just chop one
-* If you find a head, the reduce the count of heads by 1, and spawn weaker heads
+* If there are no heads left, just return ```[]```
+* If we find that there is a level 1 head at the start of our list, just chop it off and return the rest of the array
+* If we find that there is a higher level head at the start of our list, spawn n - 1 heads in it's place
 
 [gist 24df70ad958b0ba87e37 chop.hs]
 
@@ -45,27 +46,24 @@ Repeatedly chopping heads
 -------------------------
 Our function chop is a pure function as, given some input, it always returns the same output, without any sort of side effects. Side effects is a general term for modifying inputs / IO Operations / DB Calls, and so on.
 
-Since chop is pure function, we can happily call it over and over. Let's build a list where each element is the result of chopping the previous element.
+Since chop is pure function, we can safely call it over and over. Let's build a list where each element is the result of chopping the previous element.
 [gist 24df70ad958b0ba87e37 repeatedly-chop1.hs]
 
 
-This paradigm is so common, that we have a functional construct that does this: [iterate]( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:iterate). We can replace the code with the following:
+This paradigm is so common, that we have a functional construct that does this: [iterate]( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:iterate). We can replace the above code with the following:
 [gist 24df70ad958b0ba87e37 repeatedly-chop2.hs]
 
 Truncate that infinite list
 ---------------------------
 Great, we now have built a list of all the states the Hydra is in while Hercules is busy chopping away at it. However, this list goes on forever (we never put in a termination condition in the earlier code), so let's do that now.
 
-First, we build a check to see if the hydra is dead.
-[gist 24df70ad958b0ba87e37 isdead.hs]
-
-Now, let's keep things as long as the Hydra is alive
+We can use a simple empty check (null) to test if the hydra is still alive. Let's keep items as long as the Hydra is alive
 [gist 24df70ad958b0ba87e37 takewhilealive.hs]
 
 Putting the two together
 [gist 24df70ad958b0ba87e37 iteratethroughheads.hs]
 
-Again, these patterns are so common, that we can replace the entire thing with a single line. [any](http://zvon.org/other/haskell/Outputprelude/any_f.html) checks the given condition against elements in the list until it finds one true. [takeWhile]( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:takeWhile) keeps things in the list until the first element that doesn't match.
+Again, these patterns are so common, that we can replace the entire thing with a single line. [takeWhile]( http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:takeWhile) keeps things in the list until the first element that doesn't match.
 [gist 24df70ad958b0ba87e37 repeatedly-simple.hs]
 
 Finishing up
@@ -75,15 +73,21 @@ Now that we have the sequence of chops needed to kill that Hydra, figuring out t
 
 Extending
 ---------
-Now that we've solved the problem, what next? How easy is it to extend this? Let's add a new requirement: Hercules, though a half god, can only fight at most n Hydra heads at a time. If the number of Hydra heads goes above n, then hercules dies. Let's make a function `willHerculesDie` which takes two parameters, n and the Hydra.
+Now that we've solved the problem, what next? How easy is it to extend this? Let's add a new requirement: Hercules, though a half god, can only fight at most n Hydra heads at a time. If the number of Hydra heads goes above n, then hercules dies. Let's make a function ```willHerculesDie``` which takes two parameters, n and the Hydra.
 
-Turns out, this is pretty simple. We just need to sum together the count of all the heads. If the sum is more than n at any point, then we return false.
+Turns out, this is pretty simple. We just need to count all the heads that are alive. If the count is more than n at any point, then we return true, and Hercules dies.
 [gist 24df70ad958b0ba87e37 herculeswilldie.hs]
 
 So what next?
 -------------
-We've built a bunch of really composable functions, and we can look at each one independently to tune the system. With the code we have implemented for chop, Hercules needs to be able to fight 362880 Hydra heads at the same time in order to survive. We can replace chop with a more efficient algorithm
+We've built a bunch of really composable functions, and we can look at each one independently to tune the system.
 
-Play around with the code [here](https://gist.github.com/gja/24df70ad958b0ba87e37/#file-hydra-hs)
+You can get Haskell set up with the [Haskell Platform](http://www.haskell.org/platform/) and play around with the code [here](https://gist.github.com/gja/24df70ad958b0ba87e37/#file-hydra-hs).
 
-[footer twitter:tdinkar comment:9188785269813520484:5931143789690992852]
+Some great books you can check out:
+
+* [Structure and Interpretation of Computer Programs](http://mitpress.mit.edu/sicp/full-text/book/book.html)
+* [Learn you a Haskell for Great Good](http://learnyouahaskell.com/) - Greatest Haskell Tutorial out there
+* [Functional Programming for the Object-Oriented Programmer](https://leanpub.com/fp-oo)
+
+[footer twitter:tdinkar hacker_news:7113259 comment:9188785269813520484:5931143789690992852]
